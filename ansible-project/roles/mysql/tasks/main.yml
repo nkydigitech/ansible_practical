@@ -1,4 +1,7 @@
 ---
+- name: Load vault secrets
+  include_vars: secrets.yml
+
 - name: Install MySQL
   apt:
     name: mysql-server
@@ -10,3 +13,7 @@
     name: mysql
     state: started
     enabled: yes
+
+- name: Show db name (using vault variable)
+  debug:
+    msg: "Database name is {{ db_name }}"
