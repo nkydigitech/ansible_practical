@@ -1,0 +1,9 @@
+---
+- name: My First Ansible Project
+  hosts: webservers
+  become: yes
+
+  roles:
+    - webserver
+    - mysql
+    - app
