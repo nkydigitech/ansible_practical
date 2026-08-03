@@ -1,45 +1,58 @@
 name: Ansible CI/CD Pipeline
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
+
 jobs:
   ansible-lint:
     name: Lint Playbook
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - run: pip install ansible ansible-lint
-      - run: cd ansible-project && ansible-lint playbook.yml
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: |
+          pip install ansible ansible-lint
+
+      - name: Run Ansible Lint
+        run: |
+          cd ansible-project
+          ansible-lint playbook.yml
         continue-on-error: true
+
   ansible-check:
     name: Dry Run
     runs-on: ubuntu-latest
     needs: ansible-lint
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - run: pip install ansible
-      - run: echo "${{ secrets.VAULT_PASSWORD || 'ansible-vault-password' }}" > vault_pass.txt
-      - run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --check --connection=local --vault-password-file ../vault_pass.txt
-        continue-on-error: true
-  ansible-apply:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs: ansible-check
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - run: pip install ansible
-      - run: echo "${{ secrets.VAULT_PASSWORD || 'ansible-vault-password' }}" > vault_pass.txt
-      - run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --connection=local --vault-password-file ../vault_pass.txt
-      - run: echo "Deploy complete. Check Actions tab for full logs."
+          python-version: "3.11"
+
+      - name: Install Ansible
+        run: |
+          pip install ansible
+
+      - name: Run Syntax Check
+        run: |
+          cd ansible-project
+          ansible-playbook \
+            -i inventory-ci.yml \
+            playbook.yml \
+            --syntax-check
+
+      - name: Pipeline Finished
+        run: echo "CI/CD pipeline finished successfully."

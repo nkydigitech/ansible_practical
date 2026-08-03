@@ -1,19 +1,17 @@
 ---
 - name: Load vault secrets
-  include_vars: secrets.yml
-
+  ansible.builtin.include_vars:
+    file: secrets.yml
 - name: Install MySQL
-  apt:
+  ansible.builtin.apt:
     name: mysql-server
     state: present
-    update_cache: yes
-
+    update_cache: true
 - name: Ensure MySQL is running
-  service:
+  ansible.builtin.service:
     name: mysql
     state: started
-    enabled: yes
-
+    enabled: true
 - name: Show db name (using vault variable)
-  debug:
+  ansible.builtin.debug:
     msg: "Database name is {{ db_name }}"
