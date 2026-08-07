@@ -1,253 +1,187 @@
-🚀 Ansible Practical — by Nkechi Ahanonye
+# 🚀 Ansible Practical — by Nkechi Ahanonye
+### Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform | Featured: 15-Module Ansible Lab with real terminal
 
-    "Infrastructure as code means your servers are only as good as your playbooks."
+> "Infrastructure as code means your servers are only as good as your playbooks."
 
-A hands-on Ansible project built from scratch as part of a full Ansible Masterclass. This repository covers real-world infrastructure automation using roles, variables, handlers, templates, Ansible Vault and a production-ready CI/CD Pipeline.
+[![Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions/workflows/ci.yml/badge.svg)](https://github.com/nkydigitech/ansible_practical/actions)
 
-[Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions)
+**Live Learning:** [📖 Full 15-Module Guide](https://nkydigitech.github.io/ansible-guide/) | [🧪 Student Lab](https://nkydigitech.github.io/ansible-lab/) | [💼 LinkedIn](https://www.linkedin.com/in/nkechi-ahanonye)
 
-Live Learning: 📖 Full 15-Module Guide | 🧪 Student Lab | 💼 LinkedIn
-Why I Built This
+A hands-on Ansible project built from scratch as part of a full Ansible Masterclass. Covers real-world infrastructure automation using roles, variables, handlers, templates, **Ansible Vault and a production-ready CI/CD Pipeline.**
 
-Junior engineers SSH into prod and break things. Senior engineers use a pipeline. This repo teaches you the senior way: Lint → Dry-Run → Deploy. If GitHub Actions is green, it's safe to deploy. If red, you fix it before production breaks. That 1-minute pipeline has saved me from pushing broken configs more times than I can count.
-📁 Project Structure
-Code
+---
 
+### Why I Built This
+
+Junior engineers SSH into prod and break things. Senior engineers use a pipeline. This repo teaches you the senior way: **Lint → Dry-Run → Deploy.** 
+
+If GitHub Actions is green ✅, it's safe to deploy. If red ❌, you fix it before production breaks. That 1-minute pipeline has saved me from pushing broken configs more times than I can count.
+
+---
+
+### 📁 Project Structure
+
+```bash
 ansible_practical/
-├──.github/
-│ └── workflows/
-│ └── ci.yml # 6-check pipeline: yamllint, ansible-lint, shellcheck, syntax-check, check --diff
+├── .github/
+│   └── workflows/
+│       └── ci.yml                # 6-check pipeline
 └── ansible-project/
-    ├── inventory.ini # Your REAL servers (prod/staging)
-    ├── inventory-ci.yml # For CI only - uses localhost, no SSH needed
-    ├── playbook.yml # Main playbook - orchestrates all roles
+    ├── inventory.ini             # Your REAL servers
+    ├── inventory-ci.yml          # For CI only - localhost, no SSH
+    ├── playbook.yml              # Main playbook
     └── roles/
-        ├── webserver/ # Installs and configures Nginx
-        ├── mysql/ # Installs MySQL + encrypted credentials
-        │ └── vars/
-        │ └── secrets.yml # 🔐 Encrypted with Ansible Vault
-        └── app/ # Creates app directory + deploys index page
+        ├── webserver/            # Installs Nginx
+        ├── mysql/                # Installs MySQL + Vault secrets
+        │   └── vars/
+        │       └── secrets.yml   # 🔐 Encrypted with Ansible Vault
+        └── app/                  # Deploys app
+```
 
-⚙️ Prerequisites
+---
 
-    Python 3.11+
-    Ansible (pip install ansible)
-    Git
+### ⚙️ Prerequisites
 
-🚀 Getting Started - Zero to Green in 5 Minutes
+- Python 3.11+
+- Ansible (`pip install ansible`)
+- Git
 
-Step 1: Clone
-Bash
+---
 
+### 🚀 Getting Started - Zero to Green in 5 Minutes
+
+**Step 1: Clone**
+
+```bash
 git clone https://github.com/nkydigitech/ansible_practical.git
 cd ansible_practical/ansible-project
+```
 
-Step 2: Fix The Vault File - You Must Do This After Clone/Fork
-roles/mysql/vars/secrets.yml is encrypted with Ansible Vault for security. I cannot share the password. You need to create your own.
-Bash
+**Step 2: Fix The Vault File - You Must Do This After Clone/Fork**
 
+`roles/mysql/vars/secrets.yml` is encrypted. For security, I cannot share the password.
+
+```bash
 rm roles/mysql/vars/secrets.yml
+
 cat > roles/mysql/vars/secrets.yml << EOF
 db_name: myappdb
 db_user: myuser
 db_password: SuperSecret123!
 EOF
+
 ansible-vault encrypt roles/mysql/vars/secrets.yml
-# When prompted, set password: devops123 - remember it
+# Set password: devops123
+```
 
-Note for Forks: GitHub Actions will stay green automatically after you fork because the pipeline creates dummy secrets for CI. You only need Step 2 for running locally on your laptop.
+> **Forked?** GitHub Actions will stay green automatically. CI creates dummy secrets for itself. You only need Step 2 for local runs.
 
-Step 3: Test Locally - The Safe Way
-Bash
+**Step 3: Test Locally - The Safe Way**
 
-# 1. Check syntax - fails fast if typo
+```bash
+# 1. Fail fast check
 ansible-playbook -i inventory-ci.yml playbook.yml --syntax-check
 
 # 2. Dry-run - shows WHAT would change, makes no changes
 ansible-playbook -i inventory-ci.yml playbook.yml --check --diff --ask-vault-pass
-# Enter password: devops123
 
-# 3. Real run to your servers
+# 3. Real run
 ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass
+```
 
-Step 4: What To Expect
-When you run it, you will see:
-Code
+**Step 4: What To Expect**
 
+```
 TASK [webserver : Install Nginx] ok: [localhost]
 TASK [mysql : Load vault secrets] ok: [localhost]
 TASK [app : Deploy index page] ok: [localhost]
-PLAY RECAP ****************************************************************
-localhost : ok=3 changed=0 unreachable=0 failed=0
+PLAY RECAP: localhost ok=3 changed=0 failed=0
+```
 
-changed=0 on second run = Idempotency. This is Ansible's superpower. Run twice, second run does nothing because server is already correct.
+`changed=0` on second run = Idempotency working. This is Ansible's superpower.
 
-Step 5: Push and Get Your Green Badge
-Push to main branch, go to Actions tab. You will see:
-Code
+**Step 5: Push and Get Green Badge**
 
-1. yamllint - ok
-2. ansible-lint - ok
-3. shellcheck - ok
-4. syntax-check - ok
-5. check --diff - ok
-6. Pipeline Finished - ✅ All 6 checks passed - safe to deploy
+Push to `main` → Actions tab → You should see all 6 checks green:
 
-Screenshot that green run for your portfolio.
-🎭 Roles Breakdown
+`yamllint → ansible-lint → shellcheck → syntax-check → check --diff → Pipeline Finished ✅`
 
-🌐 webserver - Installs and ensures Nginx is present. Module: apt. Demonstrates: idempotency.
+---
 
-🗄 mysql - Installs MySQL server, ensures running and enabled on boot. Loads encrypted credentials via include_vars. Demonstrates: secret management, service management.
+### 🎭 Roles Breakdown
 
-📦 app - Creates application directory and deploys a basic index page. Modules: file, copy. Demonstrates: file management, content deployment.
-🔍 The 6 Checks Explained
-	
+**🌐 webserver** - Installs Nginx. Module: `apt`. Teaches idempotency.
 
-Check
-	
+**🗄 mysql** - Installs MySQL, manages service. Loads encrypted vars. Teaches Vault + service management.
 
-What It Catches
-	
+**📦 app** - Creates app directory and deploys index page. Teaches file management.
 
-Why It Matters
+---
 
-1
-	
+### 🔍 The 6 Checks in ci.yml
 
-yamllint
-	
+| # | Check | What It Catches |
+|---|---|---|
+| 1 | yamllint | Broken YAML indentation |
+| 2 | ansible-lint | Bad Ansible practices |
+| 3 | shellcheck | Bad bash scripts |
+| 4 | syntax-check | Typos - fails in 2 seconds |
+| 5 | check --diff | Shows WHAT would change, no real change |
+| 6 | Pipeline Finished | Deploy confidence proof |
 
-Broken YAML - missing spaces, wrong indentation
-	
+---
 
-YAML is picky, one space breaks prod
+### 🔐 Ansible Vault
 
-2
-	
-
-ansible-lint
-	
-
-Bad Ansible practices, deprecated modules
-	
-
-Teaches you to write like a senior
-
-3
-	
-
-shellcheck
-	
-
-Bad bash - rm -rf \$var disasters
-	
-
-If you have shell scripts
-
-4
-	
-
-syntax-check
-	
-
-Typos in playbook.yml
-	
-
-Fails in 2 seconds, not 2 minutes
-
-5
-	
-
-check --diff
-	
-
-Shows WHAT would change before changing
-	
-
-The most important - safe preview
-
-6
-	
-
-Pipeline Finished
-	
-
-Proof
-	
-
-Your deploy confidence
-🔐 Ansible Vault - Golden Rule
-
-Never commit plain text passwords. Always use Ansible Vault.
-Bash
-
-# View/edit encrypted file
+```bash
 ansible-vault edit roles/mysql/vars/secrets.yml
-
-# Encrypt a new file
 ansible-vault encrypt path/to/file.yml
-
-# Run playbook with vault password
 ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass
+```
 
-😰 Common Errors - Fixed
+Golden Rule: Never commit plain text passwords. Always use Vault. 🔒
 
-Error: Attempting to decrypt but no vault secrets found - You skipped Step 2. Delete my encrypted file and create yours.
+---
 
-Error: var-naming - Already fixed in pipeline with --skip-list var-naming. Pipeline will not fail on style.
+### 😰 Common Errors - Fixed
 
-Error: inventory tries to SSH and fails - Use inventory-ci.yml for local tests. It has ansible_connection=local so it runs on your laptop, not trying to SSH.
-💡 Key Concepts Demonstrated
+**`Attempting to decrypt but no vault secrets found`** - You skipped Step 2. Create your own secrets.yml.
 
-Concept
-	
+**`inventory tries to SSH`** - Use `inventory-ci.yml` for local tests. It has `ansible_connection=local`.
 
-Where To Find It
+**`var-naming`** - Already fixed in pipeline with `--skip-list var-naming`.
 
-Idempotency
-	
+---
 
-Run playbook twice, observe changed=0
+### 💡 Key Concepts
 
-Roles
-	
+| Concept | Where |
+|---|---|
+| Idempotency | Run playbook twice, `changed=0` |
+| Roles | `roles/` directory |
+| Vault | `--ask-vault-pass` |
+| CI/CD | `.github/workflows/ci.yml` |
+| Dry-Run | `--check --diff` |
 
-roles/ directory structure
+---
 
-Variables
-	
+### 📚 Keep Learning
 
-roles/mysql/vars/secrets.yml
+- **New?** [Student Lab - 4 labs, 30 mins](https://nkydigitech.github.io/ansible-lab/)
+- **Serious?** [15 Modules Guide](https://nkydigitech.github.io/ansible-guide/)
+- **Official:** [Ansible Docs](https://docs.ansible.com/)
 
-Vault Encryption
-	
+---
 
---ask-vault-pass flag
+### 👩🏽‍💻 About Me
 
-CI/CD Pipeline
-	
-
-.github/workflows/ci.yml
-
-Dry-Run
-	
-
---check --diff flag
-📚 Keep Learning
-
-    New to Ansible? Start here: Student Lab - 4 hands-on labs, 30 mins
-    Want mastery? Full course: 15 Modules Guide - with real terminal output
-    Official: Ansible Docs | Ansible Galaxy
-
-👩🏽‍💻 About Me
-
-Built by Nkechi Ahanonye - DevOps Engineer, Cloud Enthusiast and Educator passionate about making infrastructure automation simple for beginners.
+**Nkechi Ahanonye**
+Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform
 
 I teach Ansible, Terraform and CI/CD to the next generation of DevOps engineers through hands-on, project-based learning. No fluff, just real-world projects that get you hired.
 
-Let's connect on LinkedIn - I share daily DevOps tips and break down complex topics into simple guides.
+[LinkedIn](https://www.linkedin.com/in/nkechi-ahanonye) | [GitHub](https://github.com/nkydigitech)
 
-Star ⭐ this repo if it stopped you from SSH-ing into prod!
+**Star ⭐ this repo if it stopped you from SSH-ing into prod!**
 
-Happy automating! ⚡️
+Happy automating! ⚡
