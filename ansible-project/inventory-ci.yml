@@ -1,8 +1,13 @@
+# inventory-ci.yml - for GitHub Actions only, no SSH needed
 [webservers]
 localhost ansible_connection=local
+
 [databases]
 localhost ansible_connection=local
+
 [apps]
 localhost ansible_connection=local
+
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
+ansible_become=no
