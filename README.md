@@ -106,6 +106,7 @@ Push to `main` → Actions tab → You should see all 6 checks green:
 
 `yamllint → ansible-lint → shellcheck → syntax-check → check --diff → Pipeline Finished ✅`
 
+Want Prod Deploy? Fork is safe by default. To enable real prod deploy, add your SSH_PRIVATE_KEY and VAULT_PASSWORD in Settings > Secrets and click Run workflow in Actions.
 ---
 
 ### 🎭 Roles Breakdown
