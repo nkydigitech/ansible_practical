@@ -25,7 +25,7 @@ If GitHub Actions is green ✅, it's safe to deploy. If red ❌, you fix it befo
 ansible_practical/
 ├── .github/
 │   └── workflows/
-│       └── ci.yml                # 6-check pipeline
+│       └── cicd.yml                # 6-check pipeline
 └── ansible-project/
     ├── inventory.ini             # Your REAL servers
     ├── inventory-ci.yml          # For CI only - localhost, no SSH
@@ -106,7 +106,15 @@ Push to `main` → Actions tab → You should see all 6 checks green:
 
 `yamllint → ansible-lint → shellcheck → syntax-check → check --diff → Pipeline Finished ✅`
 
-Want Prod Deploy? Fork is safe by default. To enable real prod deploy, add your SSH_PRIVATE_KEY and VAULT_PASSWORD in Settings > Secrets and click Run workflow in Actions.
+### 🚀 Step 6: Want Real Prod Deploy? (Optional - For Advanced Users)
+Fork is safe by default — only CI runs.
+
+To enable real prod deploy:
+1. Go to `Settings > Secrets > New secret` → add `SSH_PRIVATE_KEY` and `VAULT_PASSWORD`
+2. Go to `Actions > Ansible CI/CD Pipeline > Run workflow`
+3. Click approve when it asks for `production` environment
+
+CI = auto. CD = you click the button. No accidental prod breaks.
 ---
 
 ### 🎭 Roles Breakdown
