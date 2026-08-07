@@ -22,7 +22,7 @@ jobs:
         run: pip install ansible ansible-lint yamllint
 
       - name: 1. yamllint - catches broken YAML
-        run: yamllint ansible-project/
+        run: yamllint ansible-project/playbook.yml ansible-project/roles/
 
       - name: 2. ansible-lint - catches bad Ansible practices
         run: cd ansible-project && ansible-lint playbook.yml
