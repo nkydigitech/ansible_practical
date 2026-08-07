@@ -127,7 +127,7 @@ CI = auto. CD = you click the button. No accidental prod breaks.
 
 ---
 
-### 🔍 The 6 Checks in ci.yml
+### 🔍 The 6 Checks in cicd.yml
 
 | # | Check | What It Catches |
 |---|---|---|
@@ -169,7 +169,7 @@ Golden Rule: Never commit plain text passwords. Always use Vault. 🔒
 | Idempotency | Run playbook twice, `changed=0` |
 | Roles | `roles/` directory |
 | Vault | `--ask-vault-pass` |
-| CI/CD | `.github/workflows/ci.yml` |
+| CI/CD | `.github/workflows/cicd.yml` |
 | Dry-Run | `--check --diff` |
 
 ---
