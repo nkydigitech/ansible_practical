@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint-and-check:
-    name: Lint → Dry-Run → Deploy Check
+    name: Lint -> Dry-Run -> Deploy Check
     runs-on: ubuntu-latest
 
     steps:
@@ -21,13 +21,21 @@ jobs:
       - name: Install tools
         run: pip install ansible ansible-lint yamllint
 
+      - name: Create dummy secrets for CI
+        run: |
+          cat > ansible-project/roles/mysql/vars/secrets.yml << 'EOF'
+          db_name: testdb
+          db_user: testuser
+          db_password: test123
+          EOF
+
       - name: 1. yamllint - catches broken YAML
         run: yamllint ansible-project/playbook.yml ansible-project/roles/
 
       - name: 2. ansible-lint - catches bad Ansible practices
         run: cd ansible-project && ansible-lint playbook.yml
 
-      - name: 3. shellcheck - catches bad bash (if you have scripts)
+      - name: 3. shellcheck - catches bad bash
         run: |
           sudo apt-get install -y shellcheck
           find ansible-project -name "*.sh" -exec shellcheck {} \; || echo "No shell scripts - OK"
@@ -35,7 +43,7 @@ jobs:
       - name: 4. syntax-check - fails fast
         run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --syntax-check
 
-      - name: 5. check --diff - shows WHAT would change, no changes made
+      - name: 5. check --diff - shows WHAT would change
         run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --check --diff
 
       - name: 6. Pipeline Finished
