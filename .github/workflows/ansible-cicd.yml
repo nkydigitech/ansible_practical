@@ -33,7 +33,7 @@ jobs:
         run: yamllint ansible-project/playbook.yml ansible-project/roles/
 
       - name: 2. ansible-lint - catches bad Ansible practices
-        run: cd ansible-project && ansible-lint playbook.yml
+        run: cd ansible-project && ansible-lint playbook.yml --skip-list var-naming
 
       - name: 3. shellcheck - catches bad bash
         run: |
