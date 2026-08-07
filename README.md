@@ -1,9 +1,9 @@
 # 🚀 Ansible Practical — by Nkechi Ahanonye
 ### Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform | Featured: 15-Module Ansible Lab with real terminal
 
-> "Infrastructure as code means your servers are only as good as your playbooks."
-
 [![Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions/workflows/ci.yml/badge.svg)](https://github.com/nkydigitech/ansible_practical/actions)
+
+> "Infrastructure as code means your servers are only as good as your playbooks."
 
 **Live Learning:** [📖 Full 15-Module Guide](https://nkydigitech.github.io/ansible-guide/) | [🧪 Student Lab](https://nkydigitech.github.io/ansible-lab/) | [💼 LinkedIn](https://www.linkedin.com/in/nkechi-ahanonye)
 
