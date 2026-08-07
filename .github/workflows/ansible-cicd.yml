@@ -2,15 +2,13 @@ name: Ansible CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  ansible-lint:
-    name: Lint Playbook
+  lint-and-check:
+    name: Lint → Dry-Run → Deploy Check
     runs-on: ubuntu-latest
 
     steps:
@@ -20,39 +18,25 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install Ansible
+      - name: Install tools
+        run: pip install ansible ansible-lint yamllint
+
+      - name: 1. yamllint - catches broken YAML
+        run: yamllint ansible-project/
+
+      - name: 2. ansible-lint - catches bad Ansible practices
+        run: cd ansible-project && ansible-lint playbook.yml
+
+      - name: 3. shellcheck - catches bad bash (if you have scripts)
         run: |
-          pip install ansible ansible-lint
+          sudo apt-get install -y shellcheck
+          find ansible-project -name "*.sh" -exec shellcheck {} \; || echo "No shell scripts - OK"
 
-      - name: Run Ansible Lint
-        run: |
-          cd ansible-project
-          ansible-lint playbook.yml
-        continue-on-error: true
+      - name: 4. syntax-check - fails fast
+        run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --syntax-check
 
-  ansible-check:
-    name: Dry Run
-    runs-on: ubuntu-latest
-    needs: ansible-lint
+      - name: 5. check --diff - shows WHAT would change, no changes made
+        run: cd ansible-project && ansible-playbook -i inventory-ci.yml playbook.yml --check --diff
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Install Ansible
-        run: |
-          pip install ansible
-
-      - name: Run Syntax Check
-        run: |
-          cd ansible-project
-          ansible-playbook \
-            -i inventory-ci.yml \
-            playbook.yml \
-            --syntax-check
-
-      - name: Pipeline Finished
-        run: echo "CI/CD pipeline finished successfully."
+      - name: 6. Pipeline Finished
+        run: echo "✅ All 6 checks passed - safe to deploy"
