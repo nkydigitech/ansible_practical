@@ -1,5 +1,5 @@
 # 🚀 Ansible Practical — by Nkechi Ahanonye
-### Cloud & DevOps Engineer | AWS · Ansible · Terraform · K8s | Training the Next Generation of African DevOps Engineers | Open to Remote Roles
+### Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform | Featured: 15-Module Ansible Lab with real terminal
 
 For DevOps students who need relatable, hands-on examples — not textbook theory.
 
