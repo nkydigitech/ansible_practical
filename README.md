@@ -1,7 +1,7 @@
 # 🚀 Ansible Practical — by Nkechi Ahanonye
 ### Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform | Featured: 15-Module Ansible Lab with real terminal
 
-[![Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions/workflows/cicd.yml/badge.svg)](https://github.com/nkydigitech/ansible_practical/actions)
+[![Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions/workflows/ansible-cicd.yml/badge.svg)](https://github.com/nkydigitech/ansible_practical/actions)
 
 > "Infrastructure as code means your servers are only as good as your playbooks."
 
@@ -25,7 +25,7 @@ If GitHub Actions is green ✅, it's safe to deploy. If red ❌, you fix it befo
 ansible_practical/
 ├── .github/
 │   └── workflows/
-│       └── cicd.yml                # 6-check pipeline
+│       └── ansible-cicd.yml        # 6-check pipeline
 └── ansible-project/
     ├── inventory.ini             # Your REAL servers
     ├── inventory-ci.yml          # For CI only - localhost, no SSH
@@ -127,7 +127,7 @@ CI = auto. CD = you click the button. No accidental prod breaks.
 
 ---
 
-### 🔍 The 6 Checks in cicd.yml
+### 🔍 The 6 Checks in ansible-cicd.yml
 
 | # | Check | What It Catches |
 |---|---|---|
@@ -169,7 +169,7 @@ Golden Rule: Never commit plain text passwords. Always use Vault. 🔒
 | Idempotency | Run playbook twice, `changed=0` |
 | Roles | `roles/` directory |
 | Vault | `--ask-vault-pass` |
-| CI/CD | `.github/workflows/cicd.yml` |
+| CI/CD | `.github/workflows/ansible-cicd.yml` |
 | Dry-Run | `--check --diff` |
 
 ---
