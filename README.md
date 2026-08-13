@@ -1,11 +1,13 @@
 # 🚀 Ansible Practical — by Nkechi Ahanonye
-### Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min automated pipelines with AWS + Ansible + Terraform | Featured: 15-Module Ansible Lab with real terminal
+### Cloud & DevOps Engineer | AWS · Ansible · Terraform · K8s | Training the Next Generation of African DevOps Engineers | Open to Remote Roles
+
+For DevOps students who need relatable, hands-on examples — not textbook theory.
 
 [![Ansible CI/CD Pipeline](https://github.com/nkydigitech/ansible_practical/actions/workflows/ansible-cicd.yml/badge.svg)](https://github.com/nkydigitech/ansible_practical/actions)
 
 > "Infrastructure as code means your servers are only as good as your playbooks."
 
-**Live Learning:** [📖 Full 15-Module Guide](https://nkydigitech.github.io/ansible-guide/) | [🧪 Student Lab](https://nkydigitech.github.io/ansible-lab/) | [💼 LinkedIn](https://www.linkedin.com/in/nkechi-ahanonye)
+**Live Learning:** [📖 Full 15-Module Guide](https://nkydigitech.github.io/ansible-guide/) | [🧪 Student Lab](https://nkydigitech.github.io/ansible-lab/) | [💼 LinkedIn](https://www.linkedin.com/in/nkechiahanonye)
 
 A hands-on Ansible project built from scratch as part of a full Ansible Masterclass. Covers real-world infrastructure automation using roles, variables, handlers, templates, **Ansible Vault and a production-ready CI/CD Pipeline.**
 
@@ -189,7 +191,7 @@ Cloud & DevOps Engineer | I turn manual, 3 AM-breaking deployments into 1-min au
 
 I teach Ansible, Terraform and CI/CD to the next generation of DevOps engineers through hands-on, project-based learning. No fluff, just real-world projects that get you hired.
 
-[LinkedIn](https://www.linkedin.com/in/nkechi-ahanonye) | [GitHub](https://github.com/nkydigitech)
+[LinkedIn](https://www.linkedin.com/in/nkechiahanonye) | [GitHub](https://github.com/nkydigitech)
 
 **Star ⭐ this repo if it stopped you from SSH-ing into prod!**
 
